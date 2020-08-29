@@ -15,6 +15,7 @@ import br.com.senior.entity.Pedido;
 import br.com.senior.entity.Produto;
 import br.com.senior.exception.PedidoFechadoException;
 import br.com.senior.exception.ProdutoDesativadoException;
+import br.com.senior.exception.ProdutoNaoIdentificadoException;
 import br.com.senior.repository.PedidoRepository;
 import br.com.senior.repository.ProdutoRepository;
 
@@ -23,10 +24,9 @@ public class PedidoService {
 
 	@Autowired
 	private PedidoRepository pedidoRepository;
-	
+
 	@Autowired
 	private ProdutoRepository produtoRepository;
-	
 
 	@Value("${percentual_desconto}")
 	private Double desconto;
@@ -44,7 +44,7 @@ public class PedidoService {
 	}
 
 	public Pedido finalizarPedido(Pedido pedido) {
-		
+
 		pedido.setProdutos(carregarProdutos(pedido));
 		validarItensSelecionados(pedido);
 		pedido.setValorFinal(aplicarDesconto(pedido));
@@ -62,8 +62,7 @@ public class PedidoService {
 
 		if (pedido.getAtivo().equals(Boolean.TRUE)) {
 
-			Double valorSemDesconto = pedido.getProdutos().stream()
-					.filter(f -> f.getIsServico() == false)
+			Double valorSemDesconto = pedido.getProdutos().stream().filter(f -> f.isServico() == false)
 					.mapToDouble(g -> g.getValor()).sum();
 
 			if (valorSemDesconto <= 0) {
@@ -90,15 +89,22 @@ public class PedidoService {
 			}
 		});
 	}
-	
-	private List<Produto> carregarProdutos(Pedido pedido){
-		
+
+	private List<Produto> carregarProdutos(Pedido pedido) {
+
 		List<Produto> lista = new ArrayList<>();
-		
-		pedido.getProdutos().forEach(f -> lista.add(this.produtoRepository.findById(f.getId()).get()));
-		
+
+		pedido.getProdutos().forEach(f -> {
+
+			if (f.getId() == null) {
+				throw new ProdutoNaoIdentificadoException("Produto " + f.getNome() + " não identificado");
+			}
+			lista.add(this.produtoRepository.findById(f.getId()).get());
+
+		});
+
 		return lista;
-		
+
 	}
 
 }

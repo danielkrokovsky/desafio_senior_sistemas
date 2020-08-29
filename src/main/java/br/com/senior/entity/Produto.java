@@ -2,6 +2,7 @@ package br.com.senior.entity;
 
 import java.io.Serializable;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -30,8 +31,10 @@ public class Produto implements Serializable{
 	@NotNull(message = "Valor não pode ser nulo")
     private Double valor;
     
-    private Boolean isServico = false;
+	@Column(nullable = false,  columnDefinition = "boolean default false")  
+    private boolean isServico;
     
-    private boolean ativo = true;
+	@Column(nullable = false,  columnDefinition = "boolean default true")  
+    private boolean ativo;
 
 }

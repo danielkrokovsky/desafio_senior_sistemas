@@ -3,6 +3,7 @@ package br.com.senior.entity;
 import java.io.Serializable;
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -24,7 +25,8 @@ public class ItensPedido implements Serializable{
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 	
-	private boolean status = true;
+	@Column(nullable = false,  columnDefinition = "boolean default true")  
+	private boolean status;
 	
 	@OneToMany
 	private List<Produto> produtos;

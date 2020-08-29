@@ -22,20 +22,17 @@ public class ControllerAdvisor extends ResponseEntityExceptionHandler {
 	@ExceptionHandler(value = {PedidoFechadoException.class})
 	protected ResponseEntity<Object> handlePedidoFechadoException(RuntimeException ex, WebRequest request) {
 	
-	
 		return handleExceptionInternal(ex, ex.getMessage(), new HttpHeaders(), HttpStatus.CONFLICT, request);
 	}
 	
 	@ExceptionHandler(value = {ProdutoDesativadoException.class})
 	protected ResponseEntity<Object> handleProdutoDesativadoException(RuntimeException ex, WebRequest request) {
 	
-	
 		return handleExceptionInternal(ex, ex.getMessage(), new HttpHeaders(), HttpStatus.CONFLICT, request);
 	}
 	
 	@ExceptionHandler(value = {ProdutoEmUsoException.class})
 	protected ResponseEntity<Object> handleProdutoEmUsoException(RuntimeException ex, WebRequest request) {
-	
 	
 		return handleExceptionInternal(ex, ex.getMessage(), new HttpHeaders(), HttpStatus.CONFLICT, request);
 	}
