@@ -1,5 +1,7 @@
 package br.com.senior.entity;
 
+import java.util.UUID;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -14,8 +16,13 @@ public class Pedido {
 	
 	@Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
+    private String id;
 	
     private Boolean situacao;
+    
+    
+    private Pedido(){
+    	this.id = UUID.randomUUID().toString();    	
+    }
 
 }

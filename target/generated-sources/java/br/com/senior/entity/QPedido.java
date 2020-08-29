@@ -19,7 +19,7 @@ public class QPedido extends EntityPathBase<Pedido> {
 
     public static final QPedido pedido = new QPedido("pedido");
 
-    public final NumberPath<Long> id = createNumber("id", Long.class);
+    public final StringPath id = createString("id");
 
     public final BooleanPath situacao = createBoolean("situacao");
 

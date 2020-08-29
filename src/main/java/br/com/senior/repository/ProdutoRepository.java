@@ -7,7 +7,7 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import br.com.senior.entity.Produto;
 
 
-//@RepositoryRestResource(collectionResourceRel = "produtos", path = "produto")
+@RepositoryRestResource(collectionResourceRel = "produto", path = "produto")
 public interface ProdutoRepository extends PagingAndSortingRepository<Produto, Long>, QuerydslPredicateExecutor<Produto> {
 	
 	

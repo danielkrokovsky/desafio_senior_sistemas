@@ -19,7 +19,7 @@ public class QProduto extends EntityPathBase<Produto> {
 
     public static final QProduto produto = new QProduto("produto");
 
-    public final NumberPath<Long> id = createNumber("id", Long.class);
+    public final StringPath id = createString("id");
 
     public final BooleanPath isServico = createBoolean("isServico");
 

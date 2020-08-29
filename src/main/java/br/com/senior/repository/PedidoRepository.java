@@ -4,10 +4,10 @@ import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
-import br.com.senior.entity.ItensPedido;
+import br.com.senior.entity.Pedido;
 
-//@RepositoryRestResource(collectionResourceRel = "pedido", path = "pedido")
-public interface PedidoRepository extends PagingAndSortingRepository<ItensPedido, Long>, QuerydslPredicateExecutor<ItensPedido> {
+@RepositoryRestResource(collectionResourceRel = "pedido", path = "pedido")
+public interface PedidoRepository extends PagingAndSortingRepository<Pedido, Long>, QuerydslPredicateExecutor<Pedido> {
 	
 	
 	     

@@ -20,7 +20,7 @@ public class QItensPedido extends EntityPathBase<ItensPedido> {
 
     public static final QItensPedido itensPedido = new QItensPedido("itensPedido");
 
-    public final NumberPath<Long> id = createNumber("id", Long.class);
+    public final StringPath id = createString("id");
 
     public final ListPath<Produto, QProduto> produtos = this.<Produto, QProduto>createList("produtos", Produto.class, QProduto.class, PathInits.DIRECT2);
 

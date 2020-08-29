@@ -1,5 +1,7 @@
 package br.com.senior.entity;
 
+import java.util.UUID;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -15,7 +17,7 @@ public class Produto {
 	
 	@Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
+    private String id;
  
 	@NotNull(message = "Nome não pode ser nulo")
     private String nome;
@@ -24,5 +26,9 @@ public class Produto {
     private Double valor;
     
     private Boolean isServico = false;
+    
+    private Produto(){
+    	this.id = UUID.randomUUID().toString();    	
+    }
 
 }
