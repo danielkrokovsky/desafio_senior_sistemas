@@ -5,6 +5,7 @@ import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.querydsl.core.types.Predicate;
@@ -17,6 +18,9 @@ public class PedidoService {
 	
 	@Autowired
 	private PedidoRepository pedidoRepository;
+	
+	@Value("${percentual_desconto}")
+	private Double desconto;
 
 
 	public Iterable<Pedido> findAllByWebQuerydsl(Predicate predicate) {
@@ -31,9 +35,14 @@ public class PedidoService {
 		this.pedidoRepository.save(pedido);
 	}
 
-	public void create(Pedido pedido) {
+	public Pedido finalizarPedido(Pedido pedido) {
+		
+		Double valorSemDesconto = pedido.getProdutos().stream()
+				.filter(f -> f.getIsServico() == false).mapToDouble(g -> g.getValor()).sum();
+		
+		pedido.setValorFinal(valorSemDesconto * desconto);
 
-		this.pedidoRepository.save(pedido);
+		return this.pedidoRepository.save(pedido);
 	}
 
 	public void removeById(Long id) {
@@ -41,6 +50,5 @@ public class PedidoService {
 		pedidoRepository.deleteById(id);
 
 	}
-
 
 }

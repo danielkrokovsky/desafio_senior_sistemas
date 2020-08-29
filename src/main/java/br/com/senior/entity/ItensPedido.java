@@ -1,7 +1,7 @@
 package br.com.senior.entity;
 
+import java.io.Serializable;
 import java.util.List;
-import java.util.UUID;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -13,17 +13,20 @@ import lombok.Data;
 
 @Data
 @Entity
-public class ItensPedido {
+public class ItensPedido implements Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	@Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private String id;
+    private Long id;
+	
+	private boolean status = true;
 	
 	@OneToMany
 	private List<Produto> produtos;
-	
-    private ItensPedido(){
-    	this.id = UUID.randomUUID().toString();    	
-    }
 
 }

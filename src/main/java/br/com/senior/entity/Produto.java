@@ -1,6 +1,6 @@
 package br.com.senior.entity;
 
-import java.util.UUID;
+import java.io.Serializable;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -13,11 +13,16 @@ import lombok.Data;
 
 @Entity
 @Data
-public class Produto {
+public class Produto implements Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	@Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private String id;
+    private Long id;
  
 	@NotNull(message = "Nome não pode ser nulo")
     private String nome;
@@ -27,8 +32,6 @@ public class Produto {
     
     private Boolean isServico = false;
     
-    private Produto(){
-    	this.id = UUID.randomUUID().toString();    	
-    }
+    private boolean status = true;
 
 }
