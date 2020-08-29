@@ -1,5 +1,8 @@
 package br.com.senior.controller;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.querydsl.binding.QuerydslPredicate;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -30,19 +33,19 @@ public class ItensPedidoRestControler {
 	}
 
 	@PutMapping
-	public void update(ItensPedido iensPedido) {
+	public void update(@Valid @RequestBody  ItensPedido iensPedido) {
 
 		this.itensPedidoService.create(iensPedido);
 	}
 
 	@PostMapping
-	public void create(@RequestBody ItensPedido iensPedido) {
+	public void create(@Valid @RequestBody ItensPedido iensPedido) {
 
 		this.itensPedidoService.create(iensPedido);
 	}
 
 	@DeleteMapping(value = "/{id}")
-	public void removeById(@PathVariable Long id) {
+	public void removeById(@PathVariable @NotNull Long id) {
 
 		this.itensPedidoService.removeById(id);
 
