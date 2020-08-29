@@ -7,6 +7,7 @@ import com.querydsl.core.types.dsl.*;
 import com.querydsl.core.types.PathMetadata;
 import javax.annotation.Generated;
 import com.querydsl.core.types.Path;
+import com.querydsl.core.types.dsl.PathInits;
 
 
 /**
@@ -20,6 +21,8 @@ public class QPedido extends EntityPathBase<Pedido> {
     public static final QPedido pedido = new QPedido("pedido");
 
     public final StringPath id = createString("id");
+
+    public final ListPath<Produto, QProduto> produtos = this.<Produto, QProduto>createList("produtos", Produto.class, QProduto.class, PathInits.DIRECT2);
 
     public final BooleanPath situacao = createBoolean("situacao");
 

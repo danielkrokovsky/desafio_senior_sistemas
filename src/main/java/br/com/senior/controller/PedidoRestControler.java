@@ -1,9 +1,5 @@
 package br.com.senior.controller;
 
-import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.querydsl.binding.QuerydslPredicate;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -17,39 +13,37 @@ import org.springframework.web.bind.annotation.RestController;
 import com.querydsl.core.types.Predicate;
 
 import br.com.senior.entity.Pedido;
-import br.com.senior.repository.PedidoRepository;
+import br.com.senior.service.PedidoService;
 
 @RestController
 @RequestMapping("/pedido")
 public class PedidoRestControler {
 
 	@Autowired
-	private PedidoRepository pedidoRepository;
+	private PedidoService pedidoService;
 
 	@GetMapping
 	public Iterable<Pedido> findAllByWebQuerydsl(@QuerydslPredicate(root = Pedido.class) Predicate predicate) {
 
-		Iterable<Pedido> iterable = pedidoRepository.findAll(predicate);
-		List<Pedido> employees = StreamSupport.stream(iterable.spliterator(), false).collect(Collectors.toList());
-		return employees;
+		return pedidoService.findAllByWebQuerydsl(predicate);
 	}
 
 	@PutMapping
 	public void update(Pedido pedido) {
 
-		this.pedidoRepository.save(pedido);
+		this.pedidoService.create(pedido);
 	}
 
 	@PostMapping
 	public void create(Pedido pedido) {
 
-		this.pedidoRepository.save(pedido);
+		this.pedidoService.create(pedido);
 	}
 
 	@DeleteMapping(value = "/{id}")
 	public void removeById(@PathVariable Long id) {
 
-		pedidoRepository.deleteById(id);
+		this.pedidoService.removeById(id);
 
 	}
 
