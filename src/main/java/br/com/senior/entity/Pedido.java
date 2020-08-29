@@ -25,7 +25,7 @@ public class Pedido implements Serializable{
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 	
-    private Boolean situacao;
+    private Boolean ativo;
     
     @ManyToMany
     private List<Produto> produtos;

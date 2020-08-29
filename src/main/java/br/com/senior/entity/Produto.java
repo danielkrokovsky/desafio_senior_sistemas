@@ -32,6 +32,6 @@ public class Produto implements Serializable{
     
     private Boolean isServico = false;
     
-    private boolean status = true;
+    private boolean ativo = true;
 
 }

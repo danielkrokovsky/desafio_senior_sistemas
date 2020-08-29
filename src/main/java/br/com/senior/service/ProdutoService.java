@@ -1,12 +1,18 @@
 package br.com.senior.service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
+
 import com.querydsl.core.types.Predicate;
+
 import br.com.senior.entity.Produto;
+import br.com.senior.exception.ProdutoEmUsoException;
 import br.com.senior.repository.ProdutoRepository;
 
 @Service
@@ -30,8 +36,19 @@ public class ProdutoService {
 	}
 
 	public void removeById(Long id) {
+		
+		Produto prod = new Produto();
 
-		produtoRepository.deleteById(id);
+		try {
+			
+			Optional<Produto> p = this.produtoRepository.findById(id);
+			prod = p.get();
+			
+			produtoRepository.deleteById(prod.getId());
+			
+		} catch (DataIntegrityViolationException e) {
+			throw new ProdutoEmUsoException("Não é possível excluir o produto "+prod.getNome()) ;
+		}
 
 	}
 
