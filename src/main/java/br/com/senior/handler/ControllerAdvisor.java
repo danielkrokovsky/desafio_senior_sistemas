@@ -20,13 +20,14 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 import br.com.senior.exception.PedidoFechadoException;
 import br.com.senior.exception.ProdutoDesativadoException;
 import br.com.senior.exception.ProdutoEmUsoException;
+import br.com.senior.exception.ProdutoNaoIdentificadoException;
 
 @ControllerAdvice
 @Order(Ordered.HIGHEST_PRECEDENCE)
 public class ControllerAdvisor extends ResponseEntityExceptionHandler {
 	
 	
-	@ExceptionHandler(value = {PedidoFechadoException.class})
+	@ExceptionHandler(value = {PedidoFechadoException.class, ProdutoNaoIdentificadoException.class})
 	protected ResponseEntity<Object> handlePedidoFechadoException(RuntimeException ex, WebRequest request) {
 	
 		return handleExceptionInternal(ex, ex.getMessage(), new HttpHeaders(), HttpStatus.CONFLICT, request);

@@ -31,6 +31,13 @@ public class ProdutoRestControler {
 		
 		return produtoService.findAllByWebQuerydsl(predicate);
 	}
+	
+	@GetMapping(value = "/{id}")
+	public Produto findById(@NotNull @PathVariable Long id) {
+		
+		return produtoService.findById(id);
+	}
+
 
 	@PutMapping
 	public void update(@Valid @RequestBody Produto produto) {

@@ -12,6 +12,7 @@ import com.querydsl.core.types.Predicate;
 
 import br.com.senior.entity.Produto;
 import br.com.senior.exception.ProdutoEmUsoException;
+import br.com.senior.exception.ProdutoNaoIdentificadoException;
 import br.com.senior.repository.ProdutoRepository;
 
 @Service
@@ -27,10 +28,21 @@ public class ProdutoService {
 		return StreamSupport.stream(iterable.spliterator(), false).collect(Collectors.toList());
 	}
 
+	public Produto findById(Long id) {
+		
+		Optional<Produto> findById = this.produtoRepository.findById(id);
+		
+		if(findById.isPresent()) {
+			
+			return findById.get();
+		}
 
-	public void create(Produto produto) {
+		throw new ProdutoNaoIdentificadoException("Produto Não Encontrado");
+	}
 
-		this.produtoRepository.save(produto);
+	public Produto create(Produto produto) {
+
+		return this.produtoRepository.save(produto);
 	}
 
 	public void removeById(Long id) {
