@@ -1,0 +1,10 @@
+/home/daniel/Documents/workspace-spring-tool-suite-4-4.7.0.RELEASE/desafio_senior_sistemas/src/main/java/br/com/senior/DesafioSeniorSistemasApplication.java
+/home/daniel/Documents/workspace-spring-tool-suite-4-4.7.0.RELEASE/desafio_senior_sistemas/src/main/java/br/com/senior/repository/PedidoRepository.java
+/home/daniel/Documents/workspace-spring-tool-suite-4-4.7.0.RELEASE/desafio_senior_sistemas/src/main/java/br/com/senior/entity/Produto.java
+/home/daniel/Documents/workspace-spring-tool-suite-4-4.7.0.RELEASE/desafio_senior_sistemas/target/generated-sources/java/br/com/senior/entity/QItensPedido.java
+/home/daniel/Documents/workspace-spring-tool-suite-4-4.7.0.RELEASE/desafio_senior_sistemas/target/generated-sources/java/br/com/senior/entity/QProduto.java
+/home/daniel/Documents/workspace-spring-tool-suite-4-4.7.0.RELEASE/desafio_senior_sistemas/src/main/java/br/com/senior/controller/ProdutoRestControler.java
+/home/daniel/Documents/workspace-spring-tool-suite-4-4.7.0.RELEASE/desafio_senior_sistemas/src/main/java/br/com/senior/entity/ItensPedido.java
+/home/daniel/Documents/workspace-spring-tool-suite-4-4.7.0.RELEASE/desafio_senior_sistemas/src/main/java/br/com/senior/repository/ProdutoRepository.java
+/home/daniel/Documents/workspace-spring-tool-suite-4-4.7.0.RELEASE/desafio_senior_sistemas/src/main/java/br/com/senior/entity/Pedido.java
+/home/daniel/Documents/workspace-spring-tool-suite-4-4.7.0.RELEASE/desafio_senior_sistemas/target/generated-sources/java/br/com/senior/entity/QPedido.java
