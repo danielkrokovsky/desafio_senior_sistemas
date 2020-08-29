@@ -9,7 +9,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
-import javax.validation.constraints.NotNull;
 
 import lombok.Data;
 
@@ -28,12 +27,11 @@ public class Pedido implements Serializable{
     private Long id;
 	
 	@Column(nullable = false,  columnDefinition = "boolean default true")  
-    private Boolean ativo;
+    private Boolean ativo = true;
     
     @ManyToMany
     private List<Produto> produtos;
     
-    @NotNull(message = "Valor do pedido não pode ser nulo")
     private Double valorFinal;
     
 }

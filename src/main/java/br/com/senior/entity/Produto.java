@@ -32,7 +32,7 @@ public class Produto implements Serializable{
     private Double valor;
     
 	@Column(nullable = false,  columnDefinition = "boolean default false")  
-    private boolean isServico;
+    private boolean servico;
     
 	@Column(nullable = false,  columnDefinition = "boolean default true")  
     private boolean ativo;

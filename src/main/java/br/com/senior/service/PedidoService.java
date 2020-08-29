@@ -34,8 +34,7 @@ public class PedidoService {
 	public Iterable<Pedido> findAllByWebQuerydsl(Predicate predicate) {
 
 		Iterable<Pedido> iterable = pedidoRepository.findAll(predicate);
-		List<Pedido> employees = StreamSupport.stream(iterable.spliterator(), false).collect(Collectors.toList());
-		return employees;
+		return StreamSupport.stream(iterable.spliterator(), false).collect(Collectors.toList());
 	}
 
 	public void update(Pedido pedido) {
@@ -69,8 +68,6 @@ public class PedidoService {
 				throw new RuntimeException("O valor total não pode ser 0");
 			}
 
-			pedido.setValorFinal(valorSemDesconto * desconto);
-
 			return valorSemDesconto * desconto;
 
 		} else {
@@ -85,7 +82,7 @@ public class PedidoService {
 
 			if (!f.isAtivo()) {
 				throw new ProdutoDesativadoException(
-						"Produto " + f.getNome() + " desativado, não é possível adiciona-lo a lista");
+						"Produto " + f.getNome() + " desativado, não é possível adicioná-lo a lista");
 			}
 		});
 	}
@@ -100,11 +97,9 @@ public class PedidoService {
 				throw new ProdutoNaoIdentificadoException("Produto " + f.getNome() + " não identificado");
 			}
 			lista.add(this.produtoRepository.findById(f.getId()).get());
-
 		});
 
 		return lista;
 
 	}
-
 }
