@@ -1,6 +1,5 @@
 package br.com.senior.controller;
 
-import java.net.URI;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -32,15 +31,18 @@ public class PedidoRestControler {
 	private PedidoService pedidoService;
 
 	@GetMapping
-	public ResponseEntity<List<Pedido>> findAllByWebQuerydsl(@QuerydslPredicate(root = Pedido.class) Predicate predicate) {
+	public ResponseEntity<List<Pedido>> findAllByWebQuerydsl(
+			@QuerydslPredicate(root = Pedido.class) Predicate predicate) {
 
 		return ResponseEntity.ok(pedidoService.findAllByWebQuerydsl(predicate));
 	}
 
 	@PutMapping
-	public void update(@Valid @RequestBody Pedido pedido) {
+	public ResponseEntity<String> update(@Valid @RequestBody Pedido pedido) {
 
 		this.pedidoService.update(pedido);
+
+		return new ResponseEntity<String>(HttpStatus.OK);
 	}
 
 	@PostMapping
@@ -54,7 +56,7 @@ public class PedidoRestControler {
 	public ResponseEntity<Void> removeById(@PathVariable @NotNull Long id) {
 
 		this.pedidoService.removeById(id);
-		
+
 		return ResponseEntity.ok().build();
 
 	}

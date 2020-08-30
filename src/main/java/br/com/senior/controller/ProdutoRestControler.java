@@ -45,9 +45,11 @@ public class ProdutoRestControler {
 
 
 	@PutMapping
-	public void update(@Valid @RequestBody Produto produto) {
+	public ResponseEntity<String> update(@Valid @RequestBody Produto produto) {
 
 		this.produtoService.create(produto);
+		
+		return new ResponseEntity<String>(HttpStatus.OK);
 	}
 
 	@PostMapping

@@ -1,0 +1,10 @@
+Manifest-Version: 1.0
+Implementation-Title: Spring Testing
+Implementation-Version: 0.0.1-SNAPSHOT
+Built-By: daniel
+Implementation-Vendor-Id: com.test.july
+Build-Jdk: 1.8.0_231
+Implementation-URL: https://projects.spring.io/spring-boot/#/spring-bo
+ ot-starter-parent/desafio-senior-sistemas
+Created-By: Maven Integration for Eclipse
+
