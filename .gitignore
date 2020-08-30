@@ -48,3 +48,6 @@ Thumbs.db
 *.class
 *.jar
 *.exe
+
+/tmp/classes
+/test-classes

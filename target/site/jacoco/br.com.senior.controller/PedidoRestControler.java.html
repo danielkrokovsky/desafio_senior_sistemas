@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pt"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>PedidoRestControler.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Spring Testing</a> &gt; <a href="index.source.html" class="el_package">br.com.senior.controller</a> &gt; <span class="el_source">PedidoRestControler.java</span></div><h1>PedidoRestControler.java</h1><pre class="source lang-java linenums">package br.com.senior.controller;
 
-import java.net.URI;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -26,36 +25,39 @@ import br.com.senior.service.PedidoService;
 
 @RestController
 @RequestMapping(&quot;/pedido&quot;)
-<span class="fc" id="L29">public class PedidoRestControler {</span>
+<span class="fc" id="L28">public class PedidoRestControler {</span>
 
 	@Autowired
 	private PedidoService pedidoService;
 
 	@GetMapping
-	public ResponseEntity&lt;List&lt;Pedido&gt;&gt; findAllByWebQuerydsl(@QuerydslPredicate(root = Pedido.class) Predicate predicate) {
+	public ResponseEntity&lt;List&lt;Pedido&gt;&gt; findAllByWebQuerydsl(
+			@QuerydslPredicate(root = Pedido.class) Predicate predicate) {
 
 <span class="fc" id="L37">		return ResponseEntity.ok(pedidoService.findAllByWebQuerydsl(predicate));</span>
 	}
 
 	@PutMapping
-	public void update(@Valid @RequestBody Pedido pedido) {
+	public ResponseEntity&lt;String&gt; update(@Valid @RequestBody Pedido pedido) {
 
 <span class="nc" id="L43">		this.pedidoService.update(pedido);</span>
-<span class="nc" id="L44">	}</span>
+
+<span class="nc" id="L45">		return new ResponseEntity&lt;String&gt;(HttpStatus.OK);</span>
+	}
 
 	@PostMapping
 	public ResponseEntity&lt;Pedido&gt; finalizarPedido(@Valid @RequestBody Pedido pedido) {
 
-<span class="fc" id="L49">		Pedido p = this.pedidoService.finalizarPedido(pedido);</span>
-<span class="fc" id="L50">		return new ResponseEntity&lt;Pedido&gt;(p, HttpStatus.CREATED);</span>
+<span class="fc" id="L51">		Pedido p = this.pedidoService.finalizarPedido(pedido);</span>
+<span class="fc" id="L52">		return new ResponseEntity&lt;Pedido&gt;(p, HttpStatus.CREATED);</span>
 	}
 
 	@DeleteMapping(value = &quot;/{id}&quot;)
 	public ResponseEntity&lt;Void&gt; removeById(@PathVariable @NotNull Long id) {
 
-<span class="fc" id="L56">		this.pedidoService.removeById(id);</span>
-		
-<span class="fc" id="L58">		return ResponseEntity.ok().build();</span>
+<span class="fc" id="L58">		this.pedidoService.removeById(id);</span>
+
+<span class="fc" id="L60">		return ResponseEntity.ok().build();</span>
 
 	}
 

@@ -6,9 +6,9 @@ Spring Testing,br.com.senior.exception,ProdutoEmUsoException,4,0,0,0,2,0,1,0,1,0
 Spring Testing,br.com.senior.exception,PedidoFechadoException,4,0,0,0,2,0,1,0,1,0
 Spring Testing,br.com.senior,DesafioSeniorSistemasApplication,5,3,0,0,2,1,1,1,1,1
 Spring Testing,br.com.senior.util,Util,9,6,0,0,4,1,1,1,1,1
-Spring Testing,br.com.senior.controller,ProdutoRestControler,9,38,0,0,2,7,1,5,1,5
+Spring Testing,br.com.senior.controller,ProdutoRestControler,9,42,0,0,2,7,1,5,1,5
 Spring Testing,br.com.senior.controller,ItensPedidoRestControler,5,36,0,0,2,6,1,4,1,4
-Spring Testing,br.com.senior.controller,PedidoRestControler,5,27,0,0,2,6,1,4,1,4
+Spring Testing,br.com.senior.controller,PedidoRestControler,9,27,0,0,2,6,1,4,1,4
 Spring Testing,br.com.senior.service,ProdutoService,34,39,0,2,8,8,1,5,1,4
 Spring Testing,br.com.senior.service,PedidoService,31,128,3,7,5,26,4,13,1,11
 Spring Testing,br.com.senior.service,ItensPedidoService,11,22,0,0,4,4,2,3,2,3
