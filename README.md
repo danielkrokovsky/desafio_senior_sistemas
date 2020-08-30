@@ -24,16 +24,20 @@ ou é possível fazer o download do projeto diretamente pelo site
 # Passos para execução do projeto
 
 
-1. - Deve-se acessar a pasta **desafio_senior_sistemas** e executar o comando para executar o backend. Uma lista de Produtos serão cadastradas automaticamentes.
+1. - Deve-se acessar a pasta **desafio_senior_sistemas** e executar o comando para executar o backend. Uma lista de Produtos serão cadastradas automaticamente.
 
         
         ```mvn spring-boot:run```
 
 
-2. - Para cadastro de novos cadastros pode utilizar o **Postman**.
+2. - Para novos cadastros pode-se utilizar o **Postman**.
 
 
 3. - Para cadastro de novos produtos, segue o exemplo de json:
+
+	Deve-se executar uma requisição POST para o endereço:
+	
+	```http://localhost:9001/api/produto```
 
 ```
 {
@@ -45,6 +49,10 @@ ou é possível fazer o download do projeto diretamente pelo site
 
 
 4. - Para cadastro de novos Pedidos, segue o exemplo de json:
+
+	Deve-se executar uma requisição POST para o endereço:
+
+	```http://localhost:9001/api/pedido```
 
 ```
 {
@@ -78,6 +86,10 @@ ou é possível fazer o download do projeto diretamente pelo site
 
 5. - Para validar adição um produto desativado em um pedido, segue o exemplo de json:
 
+	Deve-se executar uma requisição POST para o endereço:
+
+	```http://localhost:9001/api/pedido```
+
 ```
 {
    "ativo":true,
@@ -86,14 +98,16 @@ ou é possível fazer o download do projeto diretamente pelo site
          "id":2,
          "nome":"Smart TV 32´ Samsung, 2 HDMI, 1 USB, Wi-Fi - LH32B",
          "valor":1156.84,
-         "servico":false,
-         "ativo":true
       }
    ]
 }
 ```
 
 6. - Para validar aplicação de desconto em um pedido fechado, segue o exemplo de json:
+
+	Deve-se executar uma requisição POST para o endereço:
+
+	```http://localhost:9001/api/pedido```
 
 ```
 {
@@ -119,12 +133,11 @@ ou é possível fazer o download do projeto diretamente pelo site
 
 ```
 
-8. - Para validar percentual de desconto aplicato apenas ao produtos, segue o exemplo de json:
+8. - Para validar percentual de desconto aplicato apenas aos produtos, segue o exemplo de json:
 
 ```
 {
-	"ativo":true,
-	
+   "ativo":true,	
    "produtos":[
       {
         "id": 4,
