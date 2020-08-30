@@ -1,5 +1,6 @@
 package br.com.senior.controller;
 
+import static org.junit.Assert.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -25,6 +26,7 @@ import br.com.senior.entity.Produto;
 import br.com.senior.entity.QProduto;
 import br.com.senior.service.ProdutoService;
 import br.com.senior.util.Util;
+import junit.framework.Assert;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -104,4 +106,27 @@ public class ProdutoControllerTest {
 		mvc.perform(delete("/produto/{id}", prod.getId()).contentType(MediaType.APPLICATION_JSON))
 				.andExpect(status().isOk());
 	}
+
+	@Test
+	public void updateTest() throws Exception {
+
+		Predicate p = QProduto.produto.ativo.eq(false);
+		Produto prod = new Produto();
+
+		List<Produto> produtos = this.service.findAllByWebQuerydsl(p);
+
+		if (produtos != null && produtos.size() > 0) {
+			prod = produtos.get(0);
+		}
+
+		prod.setAtivo(true);
+
+		mvc.perform(MockMvcRequestBuilders.put("/produto").content(Util.asJsonString(prod))
+				.contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON));
+
+		Produto prod2 = this.service.findById(prod.getId());
+
+		assertEquals(prod2.isAtivo(), true);
+	}
+
 }
