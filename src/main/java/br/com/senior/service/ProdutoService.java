@@ -1,5 +1,6 @@
 package br.com.senior.service;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
@@ -22,9 +23,10 @@ public class ProdutoService {
 	private ProdutoRepository produtoRepository;
 	
 	
-	public Iterable<Produto> findAllByWebQuerydsl(Predicate predicate) {
+	public List<Produto> findAllByWebQuerydsl(Predicate predicate) {
 
 		Iterable<Produto> iterable = produtoRepository.findAll(predicate);
+		
 		return StreamSupport.stream(iterable.spliterator(), false).collect(Collectors.toList());
 	}
 

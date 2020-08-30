@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pt"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ProdutoRestControler.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Spring Testing</a> &gt; <a href="index.source.html" class="el_package">br.com.senior.controller</a> &gt; <span class="el_source">ProdutoRestControler.java</span></div><h1>ProdutoRestControler.java</h1><pre class="source lang-java linenums">package br.com.senior.controller;
+
+import java.net.URI;
+import java.util.List;
+
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.querydsl.binding.QuerydslPredicate;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.http.ResponseEntity.BodyBuilder;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.querydsl.core.types.Predicate;
+
+import br.com.senior.entity.Produto;
+import br.com.senior.service.ProdutoService;
+
+@RestController
+@RequestMapping(&quot;/produto&quot;)
+<span class="fc" id="L30">public class ProdutoRestControler {</span>
+
+	@Autowired
+	private ProdutoService produtoService;
+
+	@GetMapping
+	public ResponseEntity&lt;List&lt;Produto&gt;&gt; findAllByWebQuerydsl(@QuerydslPredicate(root = Produto.class) Predicate predicate) {
+		
+<span class="fc" id="L38">		return ResponseEntity.ok(produtoService.findAllByWebQuerydsl(predicate));</span>
+	}
+	
+	@GetMapping(value = &quot;/{id}&quot;)
+	public Produto findById(@NotNull @PathVariable Long id) {
+		
+<span class="fc" id="L44">		return produtoService.findById(id);</span>
+	}
+
+
+	@PutMapping
+	public void update(@Valid @RequestBody Produto produto) {
+
+<span class="nc" id="L51">		this.produtoService.create(produto);</span>
+<span class="nc" id="L52">	}</span>
+
+	@PostMapping
+	public ResponseEntity&lt;Produto&gt; create(@Valid @RequestBody Produto produto) {
+
+<span class="fc" id="L57">		 Produto p = this.produtoService.create(produto);</span>
+		 
+<span class="fc" id="L59">		 return ResponseEntity.created(URI.create(&quot;/produto/&quot; + p.getId())).build();</span>
+	}
+
+	@DeleteMapping(value = &quot;/{id}&quot;)
+	public ResponseEntity&lt;String&gt; removeById(@NotNull @PathVariable Long id) {
+
+<span class="fc" id="L65">		this.produtoService.removeById(id);</span>
+		
+<span class="fc" id="L67">		return new ResponseEntity&lt;String&gt;(HttpStatus.OK);</span>
+
+	}
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

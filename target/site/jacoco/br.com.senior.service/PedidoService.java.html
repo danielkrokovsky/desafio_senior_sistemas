@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pt"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>PedidoService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Spring Testing</a> &gt; <a href="index.source.html" class="el_package">br.com.senior.service</a> &gt; <span class="el_source">PedidoService.java</span></div><h1>PedidoService.java</h1><pre class="source lang-java linenums">package br.com.senior.service;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
+
+import com.querydsl.core.types.Predicate;
+
+import br.com.senior.entity.Pedido;
+import br.com.senior.entity.Produto;
+import br.com.senior.exception.PedidoFechadoException;
+import br.com.senior.exception.ProdutoDesativadoException;
+import br.com.senior.exception.ProdutoNaoIdentificadoException;
+import br.com.senior.repository.PedidoRepository;
+import br.com.senior.repository.ProdutoRepository;
+
+@Service
+<span class="fc" id="L23">public class PedidoService {</span>
+
+	@Autowired
+	private PedidoRepository pedidoRepository;
+
+	@Autowired
+	private ProdutoRepository produtoRepository;
+
+	@Value(&quot;${percentual_desconto}&quot;)
+	private Double desconto;
+
+	public Iterable&lt;Pedido&gt; findAllByWebQuerydsl(Predicate predicate) {
+
+<span class="nc" id="L36">		Iterable&lt;Pedido&gt; iterable = pedidoRepository.findAll(predicate);</span>
+<span class="nc" id="L37">		return StreamSupport.stream(iterable.spliterator(), false).collect(Collectors.toList());</span>
+	}
+
+	public void update(Pedido pedido) {
+
+<span class="nc" id="L42">		this.pedidoRepository.save(pedido);</span>
+<span class="nc" id="L43">	}</span>
+
+	public Pedido finalizarPedido(Pedido pedido) {
+
+<span class="nc" id="L47">		pedido.setProdutos(carregarProdutos(pedido));</span>
+<span class="nc" id="L48">		validarItensSelecionados(pedido);</span>
+<span class="nc" id="L49">		pedido.setValorFinal(aplicarDesconto(pedido));</span>
+
+<span class="nc" id="L51">		return this.pedidoRepository.save(pedido);</span>
+	}
+
+	public void removeById(Long id) {
+
+<span class="nc" id="L56">		pedidoRepository.deleteById(id);</span>
+
+<span class="nc" id="L58">	}</span>
+
+	private double aplicarDesconto(Pedido pedido) {
+
+<span class="nc bnc" id="L62" title="All 2 branches missed.">		if (pedido.getAtivo().equals(Boolean.TRUE)) {</span>
+
+<span class="nc bnc" id="L64" title="All 2 branches missed.">			Double valorSemDesconto = pedido.getProdutos().stream().filter(f -&gt; f.isServico() == false)</span>
+<span class="nc" id="L65">					.mapToDouble(g -&gt; g.getValor()).sum();</span>
+
+<span class="nc bnc" id="L67" title="All 2 branches missed.">			if (valorSemDesconto &lt;= 0) {</span>
+<span class="nc" id="L68">				throw new RuntimeException(&quot;O valor total não pode ser 0&quot;);</span>
+			}
+
+<span class="nc" id="L71">			return valorSemDesconto * desconto;</span>
+
+		} else {
+<span class="nc" id="L74">			throw new PedidoFechadoException(&quot;Pedido Fechado, não é possível aplicar desconto&quot;);</span>
+		}
+
+	}
+
+	private void validarItensSelecionados(Pedido pedido) {
+
+<span class="nc" id="L81">		pedido.getProdutos().forEach(f -&gt; {</span>
+
+<span class="nc bnc" id="L83" title="All 2 branches missed.">			if (!f.isAtivo()) {</span>
+<span class="nc" id="L84">				throw new ProdutoDesativadoException(</span>
+<span class="nc" id="L85">						&quot;Produto &quot; + f.getNome() + &quot; desativado, não é possível adicioná-lo a lista&quot;);</span>
+			}
+<span class="nc" id="L87">		});</span>
+<span class="nc" id="L88">	}</span>
+
+	private List&lt;Produto&gt; carregarProdutos(Pedido pedido) {
+
+<span class="nc" id="L92">		List&lt;Produto&gt; lista = new ArrayList&lt;&gt;();</span>
+
+<span class="nc" id="L94">		pedido.getProdutos().forEach(f -&gt; {</span>
+
+<span class="nc bnc" id="L96" title="All 2 branches missed.">			if (f.getId() == null) {</span>
+<span class="nc" id="L97">				throw new ProdutoNaoIdentificadoException(&quot;Produto &quot; + f.getNome() + &quot; não identificado&quot;);</span>
+			}
+<span class="nc" id="L99">			lista.add(this.produtoRepository.findById(f.getId()).get());</span>
+<span class="nc" id="L100">		});</span>
+
+<span class="nc" id="L102">		return lista;</span>
+
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

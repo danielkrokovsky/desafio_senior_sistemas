@@ -1,10 +1,16 @@
 package br.com.senior.controller;
 
+import java.net.URI;
+import java.util.List;
+
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.querydsl.binding.QuerydslPredicate;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.http.ResponseEntity.BodyBuilder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -27,9 +33,9 @@ public class ProdutoRestControler {
 	private ProdutoService produtoService;
 
 	@GetMapping
-	public Iterable<Produto> findAllByWebQuerydsl(@QuerydslPredicate(root = Produto.class) Predicate predicate) {
+	public ResponseEntity<List<Produto>> findAllByWebQuerydsl(@QuerydslPredicate(root = Produto.class) Predicate predicate) {
 		
-		return produtoService.findAllByWebQuerydsl(predicate);
+		return ResponseEntity.ok(produtoService.findAllByWebQuerydsl(predicate));
 	}
 	
 	@GetMapping(value = "/{id}")
@@ -46,15 +52,19 @@ public class ProdutoRestControler {
 	}
 
 	@PostMapping
-	public void create(@Valid @RequestBody Produto produto) {
+	public ResponseEntity<Produto> create(@Valid @RequestBody Produto produto) {
 
-		this.produtoService.create(produto);
+		 Produto p = this.produtoService.create(produto);
+		 
+		 return ResponseEntity.created(URI.create("/produto/" + p.getId())).build();
 	}
 
 	@DeleteMapping(value = "/{id}")
-	public void removeById(@NotNull @PathVariable Long id) {
+	public ResponseEntity<String> removeById(@NotNull @PathVariable Long id) {
 
 		this.produtoService.removeById(id);
+		
+		return new ResponseEntity<String>(HttpStatus.OK);
 
 	}
 

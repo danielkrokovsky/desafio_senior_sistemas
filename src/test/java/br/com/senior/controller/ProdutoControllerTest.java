@@ -1,16 +1,13 @@
 package br.com.senior.controller;
 
-import static org.hamcrest.CoreMatchers.instanceOf;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import java.util.List;
+
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -18,41 +15,93 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
-import org.springframework.web.util.NestedServletException;
 
-import br.com.senior.exception.ProdutoNaoIdentificadoException;
+import com.querydsl.core.types.Predicate;
 
+import br.com.senior.entity.Produto;
+import br.com.senior.entity.QProduto;
+import br.com.senior.service.ProdutoService;
+import br.com.senior.util.Util;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-@TestPropertySource(locations="classpath:test.properties")
+@TestPropertySource(locations = "classpath:test.properties")
 public class ProdutoControllerTest {
-	
+
 	@Autowired
 	private WebApplicationContext context;
 
 	private MockMvc mvc;
-	
-	@Rule
-	public ExpectedException thrown = ExpectedException.none();
+
+	@Autowired
+	private ProdutoService service;
 
 	@Before
 	public void setup() {
 		this.mvc = MockMvcBuilders.webAppContextSetup(this.context).build();
 	}
-    
-    
+
 	@Test
 	public void findByIdTest() throws Exception {
 
-		MvcResult result = this.mvc.perform(get("/produto/1542")).andReturn();
+		mvc.perform(get("/produto/{id}", 565165l).contentType(MediaType.APPLICATION_JSON))
+				.andExpect(status().isConflict());
+	}
 
-		mvc.perform(get("/produto/{id}", 565165l)
-			      .contentType(MediaType.APPLICATION_JSON))
-			      .andExpect(status().isConflict());
+	@Test
+	public void findByIdOkTest() throws Exception {
 
+		Predicate p = QProduto.produto.ativo.eq(true);
+
+		List<Produto> produtos = this.service.findAllByWebQuerydsl(p);
+		Produto prod = new Produto();
+
+		if (produtos != null && produtos.size() > 0) {
+			prod = produtos.get(0);
+		}
+
+		mvc.perform(get("/produto/{id}", prod.getId()).contentType(MediaType.APPLICATION_JSON))
+				.andExpect(status().isOk());
+	}
+
+	@Test
+	public void findByStatus() throws Exception {
+
+		mvc.perform(get("/produto?ativo=true").contentType(MediaType.APPLICATION_JSON)).andExpect(status().isOk());
+	}
+
+	@Test
+	public void saveTest() throws Exception {
+
+		Produto p = new Produto();
+
+		p.setAtivo(true);
+		p.setNome("teste");
+		p.setServico(false);
+		p.setValor(155.10);
+		p.setId(1L);
+
+		mvc.perform(MockMvcRequestBuilders.post("/produto").content(Util.asJsonString(p))
+				.contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
+				.andExpect(status().isCreated());
+	}
+
+	@Test
+	public void removeByIdTest() throws Exception {
+
+		Predicate p = QProduto.produto.ativo.eq(true);
+		Produto prod = new Produto();
+
+		List<Produto> produtos = this.service.findAllByWebQuerydsl(p);
+
+		if (produtos != null && produtos.size() > 0) {
+			prod = produtos.get(0);
+		}
+
+		mvc.perform(delete("/produto/{id}", prod.getId()).contentType(MediaType.APPLICATION_JSON))
+				.andExpect(status().isOk());
 	}
 }

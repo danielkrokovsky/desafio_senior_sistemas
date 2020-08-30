@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
 import javax.validation.constraints.NotNull;
 
 import lombok.Data;
@@ -22,7 +23,8 @@ public class Produto implements Serializable{
 	private static final long serialVersionUID = 1L;
 
 	@Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+	@SequenceGenerator(name= "VOCABULARY_SEQUENCE", sequenceName = "VOCABULARY_SEQUENCE_ID", initialValue=1, allocationSize = 1)
+	@GeneratedValue(strategy=GenerationType.AUTO, generator="VOCABULARY_SEQUENCE")
     private Long id;
  
 	@NotNull(message = "Nome não pode ser nulo")

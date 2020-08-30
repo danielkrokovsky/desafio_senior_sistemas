@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pt"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ProdutoService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Spring Testing</a> &gt; <a href="index.source.html" class="el_package">br.com.senior.service</a> &gt; <span class="el_source">ProdutoService.java</span></div><h1>ProdutoService.java</h1><pre class="source lang-java linenums">package br.com.senior.service;
+
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.stereotype.Service;
+
+import com.querydsl.core.types.Predicate;
+
+import br.com.senior.entity.Produto;
+import br.com.senior.exception.ProdutoEmUsoException;
+import br.com.senior.exception.ProdutoNaoIdentificadoException;
+import br.com.senior.repository.ProdutoRepository;
+
+@Service
+<span class="fc" id="L20">public class ProdutoService {</span>
+	
+	@Autowired
+	private ProdutoRepository produtoRepository;
+	
+	
+	public List&lt;Produto&gt; findAllByWebQuerydsl(Predicate predicate) {
+
+<span class="fc" id="L28">		Iterable&lt;Produto&gt; iterable = produtoRepository.findAll(predicate);</span>
+		
+<span class="fc" id="L30">		return StreamSupport.stream(iterable.spliterator(), false).collect(Collectors.toList());</span>
+	}
+
+	public Produto findById(Long id) {
+		
+<span class="fc" id="L35">		Optional&lt;Produto&gt; findById = this.produtoRepository.findById(id);</span>
+		
+<span class="fc bfc" id="L37" title="All 2 branches covered.">		if(findById.isPresent()) {</span>
+			
+<span class="fc" id="L39">			return findById.get();</span>
+		}
+
+<span class="fc" id="L42">		throw new ProdutoNaoIdentificadoException(&quot;Produto Não Encontrado&quot;);</span>
+	}
+
+	public Produto create(Produto produto) {
+
+<span class="fc" id="L47">		return this.produtoRepository.save(produto);</span>
+	}
+
+	public void removeById(Long id) {
+		
+<span class="fc" id="L52">		Produto prod = new Produto();</span>
+
+		try {
+			
+<span class="fc" id="L56">			Optional&lt;Produto&gt; p = this.produtoRepository.findById(id);</span>
+<span class="fc" id="L57">			prod = p.get();</span>
+			
+<span class="fc" id="L59">			produtoRepository.deleteById(prod.getId());</span>
+			
+<span class="nc" id="L61">		} catch (DataIntegrityViolationException e) {</span>
+<span class="nc" id="L62">			throw new ProdutoEmUsoException(&quot;Não é possível excluir o produto &quot;+prod.getNome()) ;</span>
+<span class="fc" id="L63">		}</span>
+
+<span class="fc" id="L65">	}</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>
