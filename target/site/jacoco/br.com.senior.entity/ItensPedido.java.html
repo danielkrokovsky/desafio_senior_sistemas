@@ -23,13 +23,13 @@ public class ItensPedido implements Serializable{
 
 	@Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-<span class="nc" id="L26">    private Long id;</span>
+<span class="fc" id="L26">    private Long id;</span>
 	
 	@Column(nullable = false,  columnDefinition = &quot;boolean default true&quot;)  
-<span class="nc" id="L29">	private boolean status;</span>
+<span class="fc" id="L29">	private boolean status;</span>
 	
 	@OneToMany
-<span class="nc" id="L32">	private List&lt;Produto&gt; produtos;</span>
+<span class="fc" id="L32">	private List&lt;Produto&gt; produtos;</span>
 
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

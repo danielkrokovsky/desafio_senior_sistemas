@@ -1,7 +1,5 @@
 package br.com.senior.controller;
 
-import static org.junit.Assert.assertEquals;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -25,16 +23,18 @@ import org.springframework.web.context.WebApplicationContext;
 
 import com.querydsl.core.types.Predicate;
 
+import br.com.senior.entity.ItensPedido;
 import br.com.senior.entity.Produto;
+import br.com.senior.entity.QItensPedido;
 import br.com.senior.entity.QProduto;
-import br.com.senior.exception.ProdutoEmUsoException;
+import br.com.senior.service.ItensPedidoService;
 import br.com.senior.service.ProdutoService;
 import br.com.senior.util.Util;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @TestPropertySource(locations = "classpath:test.properties")
-public class ProdutoControllerTest {
+public class ItensControllerTest {
 
 	@Autowired
 	private WebApplicationContext context;
@@ -42,63 +42,69 @@ public class ProdutoControllerTest {
 	private MockMvc mvc;
 
 	@Autowired
-	private ProdutoService service;
+	private ItensPedidoService service;
+	
+	@Autowired
+	private ProdutoService produtoService;
+	
+	@Rule
+	public ExpectedException exception = ExpectedException.none();
 
 	@Before
 	public void setup() {
 		this.mvc = MockMvcBuilders.webAppContextSetup(this.context).build();
 	}
-	
-	@Rule
-	public ExpectedException exception = ExpectedException.none();
 
+	/*
 	@Test
 	public void findByIdTest() throws Exception {
 
-		mvc.perform(get("/produto/{id}", 565165l).contentType(MediaType.APPLICATION_JSON))
+		mvc.perform(get("/itenspedido/{id}", 565165l).contentType(MediaType.APPLICATION_JSON))
 				.andExpect(status().isConflict());
-	}
+	}*/
 
+	
 	@Test
 	public void findByIdOkTest() throws Exception {
 
-		Predicate p = QProduto.produto.ativo.eq(true);
+		Predicate p = QItensPedido.itensPedido.status.eq(true);
 
-		List<Produto> produtos = this.service.findAllByWebQuerydsl(p);
-		Produto prod = new Produto();
+		List<ItensPedido> pedidos = this.service.findAllByWebQuerydsl(p);
+		ItensPedido ped = new ItensPedido();
 
-		if (produtos != null && produtos.size() > 0) {
-			prod = produtos.get(0);
+		if (pedidos != null && pedidos.size() > 0) {
+			ped = pedidos.get(0);
 		}
 
-		mvc.perform(get("/produto/{id}", prod.getId()).contentType(MediaType.APPLICATION_JSON))
+		mvc.perform(get("/produto/{id}", ped.getId()).contentType(MediaType.APPLICATION_JSON))
 				.andExpect(status().isOk());
 	}
 
+	/*
 	@Test
 	public void findByStatus() throws Exception {
 
 		mvc.perform(get("/produto?ativo=true").contentType(MediaType.APPLICATION_JSON)).andExpect(status().isOk());
-	}
+	}*/
 
 	@Test
 	public void saveTest() throws Exception {
 
-		Produto p = new Produto();
+		ItensPedido itens = new ItensPedido();
+		
+		Predicate p = QProduto.produto.ativo.eq(true);
+		List<Produto> produtos = produtoService.findAllByWebQuerydsl(p);
+		
+		itens.setStatus(true);
+		itens.setProdutos(produtos);
+		itens.setId(1L);
 
-		p.setAtivo(true);
-		p.setNome("teste");
-		p.setServico(false);
-		p.setValor(155.10);
-		p.setId(1L);
-
-		mvc.perform(MockMvcRequestBuilders.post("/produto").content(Util.asJsonString(p))
+		mvc.perform(MockMvcRequestBuilders.post("/itenspedido").content(Util.asJsonString(itens))
 				.contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
 				.andExpect(status().isCreated());
 	}
 /*
 	@Test
-	@Order(1)
 	public void removeByIdTest() throws Exception {
 
 		Predicate p = QProduto.produto.ativo.eq(true);
@@ -107,17 +113,13 @@ public class ProdutoControllerTest {
 		List<Produto> produtos = this.service.findAllByWebQuerydsl(p);
 
 		if (produtos != null && produtos.size() > 0) {
-			prod = produtos.get(1);
-			produtos.clear();
-			produtos.add(prod);
+			prod = produtos.get(0);
 		}
 
-		//exception.expect(ProdutoEmUsoException.class);
 		mvc.perform(delete("/produto/{id}", prod.getId()).contentType(MediaType.APPLICATION_JSON))
-				.andExpect(status().is2xxSuccessful());
+				.andExpect(status().isOk());
 	}
-*/
-	
+
 	@Test
 	public void updateTest() throws Exception {
 
@@ -139,5 +141,5 @@ public class ProdutoControllerTest {
 
 		assertEquals(prod2.isAtivo(), true);
 	}
-
+	*/
 }

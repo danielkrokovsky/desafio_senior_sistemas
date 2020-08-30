@@ -31,7 +31,7 @@ import br.com.senior.repository.ProdutoRepository;
 	@Value(&quot;${percentual_desconto}&quot;)
 	private Double desconto;
 
-	public Iterable&lt;Pedido&gt; findAllByWebQuerydsl(Predicate predicate) {
+	public List&lt;Pedido&gt; findAllByWebQuerydsl(Predicate predicate) {
 
 <span class="nc" id="L36">		Iterable&lt;Pedido&gt; iterable = pedidoRepository.findAll(predicate);</span>
 <span class="nc" id="L37">		return StreamSupport.stream(iterable.spliterator(), false).collect(Collectors.toList());</span>

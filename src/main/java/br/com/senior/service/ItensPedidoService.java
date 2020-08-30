@@ -1,5 +1,6 @@
 package br.com.senior.service;
 
+import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
@@ -19,7 +20,7 @@ public class ItensPedidoService {
 	@Autowired
 	private ItensPedidoRepository itensPedidoRepository;
 
-	public Iterable<ItensPedido> findAllByWebQuerydsl(
+	public List<ItensPedido> findAllByWebQuerydsl(
 			@QuerydslPredicate(root = ItensPedido.class) Predicate predicate) {
 
 		Iterable<ItensPedido> iterable = itensPedidoRepository.findAll(predicate);
@@ -31,9 +32,9 @@ public class ItensPedidoService {
 		this.itensPedidoRepository.save(iensPedido);
 	}
 
-	public void create(ItensPedido iensPedido) {
+	public ItensPedido create(ItensPedido iensPedido) {
 
-		this.itensPedidoRepository.save(iensPedido);
+		return this.itensPedidoRepository.save(iensPedido);
 	}
 
 	public void removeById(@PathVariable Long id) {

@@ -31,7 +31,7 @@ public class PedidoService {
 	@Value("${percentual_desconto}")
 	private Double desconto;
 
-	public Iterable<Pedido> findAllByWebQuerydsl(Predicate predicate) {
+	public List<Pedido> findAllByWebQuerydsl(Predicate predicate) {
 
 		Iterable<Pedido> iterable = pedidoRepository.findAll(predicate);
 		return StreamSupport.stream(iterable.spliterator(), false).collect(Collectors.toList());

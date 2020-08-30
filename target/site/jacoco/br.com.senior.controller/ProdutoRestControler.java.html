@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.querydsl.binding.QuerydslPredicate;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.ResponseEntity.BodyBuilder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -27,7 +26,7 @@ import br.com.senior.service.ProdutoService;
 
 @RestController
 @RequestMapping(&quot;/produto&quot;)
-<span class="fc" id="L30">public class ProdutoRestControler {</span>
+<span class="fc" id="L29">public class ProdutoRestControler {</span>
 
 	@Autowired
 	private ProdutoService produtoService;
@@ -35,36 +34,36 @@ import br.com.senior.service.ProdutoService;
 	@GetMapping
 	public ResponseEntity&lt;List&lt;Produto&gt;&gt; findAllByWebQuerydsl(@QuerydslPredicate(root = Produto.class) Predicate predicate) {
 		
-<span class="fc" id="L38">		return ResponseEntity.ok(produtoService.findAllByWebQuerydsl(predicate));</span>
+<span class="fc" id="L37">		return ResponseEntity.ok(produtoService.findAllByWebQuerydsl(predicate));</span>
 	}
 	
 	@GetMapping(value = &quot;/{id}&quot;)
 	public Produto findById(@NotNull @PathVariable Long id) {
 		
-<span class="fc" id="L44">		return produtoService.findById(id);</span>
+<span class="fc" id="L43">		return produtoService.findById(id);</span>
 	}
 
 
 	@PutMapping
 	public void update(@Valid @RequestBody Produto produto) {
 
-<span class="fc" id="L51">		this.produtoService.create(produto);</span>
-<span class="fc" id="L52">	}</span>
+<span class="fc" id="L50">		this.produtoService.create(produto);</span>
+<span class="fc" id="L51">	}</span>
 
 	@PostMapping
 	public ResponseEntity&lt;Produto&gt; create(@Valid @RequestBody Produto produto) {
 
-<span class="fc" id="L57">		 Produto p = this.produtoService.create(produto);</span>
+<span class="fc" id="L56">		 Produto p = this.produtoService.create(produto);</span>
 		 
-<span class="fc" id="L59">		 return ResponseEntity.created(URI.create(&quot;/produto/&quot; + p.getId())).build();</span>
+<span class="fc" id="L58">		 return ResponseEntity.created(URI.create(&quot;/produto/&quot; + p.getId())).build();</span>
 	}
 
 	@DeleteMapping(value = &quot;/{id}&quot;)
 	public ResponseEntity&lt;String&gt; removeById(@NotNull @PathVariable Long id) {
 
-<span class="fc" id="L65">		this.produtoService.removeById(id);</span>
+<span class="nc" id="L64">		this.produtoService.removeById(id);</span>
 		
-<span class="fc" id="L67">		return new ResponseEntity&lt;String&gt;(HttpStatus.OK);</span>
+<span class="nc" id="L66">		return new ResponseEntity&lt;String&gt;(HttpStatus.OK);</span>
 
 	}
 

@@ -1,5 +1,7 @@
 package br.com.senior.controller;
 
+import java.util.List;
+
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
@@ -28,9 +30,9 @@ public class PedidoRestControler {
 	private PedidoService pedidoService;
 
 	@GetMapping
-	public Iterable<Pedido> findAllByWebQuerydsl(@QuerydslPredicate(root = Pedido.class) Predicate predicate) {
+	public ResponseEntity<List<Pedido>> findAllByWebQuerydsl(@QuerydslPredicate(root = Pedido.class) Predicate predicate) {
 
-		return pedidoService.findAllByWebQuerydsl(predicate);
+		return ResponseEntity.ok(pedidoService.findAllByWebQuerydsl(predicate));
 	}
 
 	@PutMapping

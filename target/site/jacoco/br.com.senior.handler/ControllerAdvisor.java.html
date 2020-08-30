@@ -40,7 +40,7 @@ import br.com.senior.exception.ProdutoNaoIdentificadoException;
 	}
 	
 	@ExceptionHandler(value = {ProdutoEmUsoException.class})
-	protected ResponseEntity&lt;Object&gt; handleProdutoEmUsoException(RuntimeException ex, WebRequest request) {
+	protected ResponseEntity&lt;Object&gt; handleProdutoEmUsoException(ProdutoEmUsoException ex, WebRequest request) {
 	
 <span class="nc" id="L45">		return handleExceptionInternal(ex, ex.getMessage(), new HttpHeaders(), HttpStatus.CONFLICT, request);</span>
 	}

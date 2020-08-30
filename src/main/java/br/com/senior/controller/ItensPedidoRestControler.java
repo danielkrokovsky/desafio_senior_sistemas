@@ -1,10 +1,13 @@
 package br.com.senior.controller;
 
+import java.net.URI;
+
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.querydsl.binding.QuerydslPredicate;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -39,9 +42,11 @@ public class ItensPedidoRestControler {
 	}
 
 	@PostMapping
-	public void create(@Valid @RequestBody ItensPedido iensPedido) {
+	public ResponseEntity<ItensPedido> create(@Valid @RequestBody ItensPedido iensPedido) {
+		
+		ItensPedido create = this.itensPedidoService.create(iensPedido);
 
-		this.itensPedidoService.create(iensPedido);
+		return ResponseEntity.created(URI.create("/produto/" + create.getId())).build();
 	}
 
 	@DeleteMapping(value = "/{id}")

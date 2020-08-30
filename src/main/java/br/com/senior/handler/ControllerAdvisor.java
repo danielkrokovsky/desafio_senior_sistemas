@@ -40,7 +40,7 @@ public class ControllerAdvisor extends ResponseEntityExceptionHandler {
 	}
 	
 	@ExceptionHandler(value = {ProdutoEmUsoException.class})
-	protected ResponseEntity<Object> handleProdutoEmUsoException(RuntimeException ex, WebRequest request) {
+	protected ResponseEntity<Object> handleProdutoEmUsoException(ProdutoEmUsoException ex, WebRequest request) {
 	
 		return handleExceptionInternal(ex, ex.getMessage(), new HttpHeaders(), HttpStatus.CONFLICT, request);
 	}
