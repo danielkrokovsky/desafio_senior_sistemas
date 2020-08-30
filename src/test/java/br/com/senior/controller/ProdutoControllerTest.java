@@ -26,7 +26,6 @@ import br.com.senior.entity.Produto;
 import br.com.senior.entity.QProduto;
 import br.com.senior.service.ProdutoService;
 import br.com.senior.util.Util;
-import junit.framework.Assert;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
