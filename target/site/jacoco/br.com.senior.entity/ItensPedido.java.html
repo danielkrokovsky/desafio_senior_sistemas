@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -12,7 +13,7 @@ import javax.persistence.OneToMany;
 
 import lombok.Data;
 
-<span class="pc bnc" id="L15" title="All 26 branches missed.">@Data</span>
+<span class="pc bnc" id="L16" title="All 26 branches missed.">@Data</span>
 @Entity
 public class ItensPedido implements Serializable{
 	
@@ -23,13 +24,13 @@ public class ItensPedido implements Serializable{
 
 	@Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-<span class="fc" id="L26">    private Long id;</span>
+<span class="fc" id="L27">    private Long id;</span>
 	
 	@Column(nullable = false,  columnDefinition = &quot;boolean default true&quot;)  
-<span class="fc" id="L29">	private boolean status;</span>
+<span class="fc" id="L30">	private boolean status;</span>
 	
-	@OneToMany
-<span class="fc" id="L32">	private List&lt;Produto&gt; produtos;</span>
+	@OneToMany(fetch = FetchType.EAGER)
+<span class="fc" id="L33">	private List&lt;Produto&gt; produtos;</span>
 
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

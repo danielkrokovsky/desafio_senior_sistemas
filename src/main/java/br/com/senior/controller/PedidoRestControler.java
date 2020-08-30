@@ -1,5 +1,6 @@
 package br.com.senior.controller;
 
+import java.net.URI;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -44,13 +45,16 @@ public class PedidoRestControler {
 	@PostMapping
 	public ResponseEntity<Pedido> finalizarPedido(@Valid @RequestBody Pedido pedido) {
 
-		return ResponseEntity.ok(this.pedidoService.finalizarPedido(pedido));
+		Pedido p = this.pedidoService.finalizarPedido(pedido);
+		return ResponseEntity.created(URI.create("/pedido/" + p.getId())).build();
 	}
 
 	@DeleteMapping(value = "/{id}")
-	public void removeById(@PathVariable @NotNull Long id) {
+	public ResponseEntity<Void> removeById(@PathVariable @NotNull Long id) {
 
 		this.pedidoService.removeById(id);
+		
+		return ResponseEntity.ok().build();
 
 	}
 

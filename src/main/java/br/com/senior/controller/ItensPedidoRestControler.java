@@ -7,6 +7,7 @@ import javax.validation.constraints.NotNull;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.querydsl.binding.QuerydslPredicate;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -36,9 +37,11 @@ public class ItensPedidoRestControler {
 	}
 
 	@PutMapping
-	public void update(@Valid @RequestBody  ItensPedido iensPedido) {
+	public ResponseEntity<String> update(@Valid @RequestBody  ItensPedido iensPedido) {
 
 		this.itensPedidoService.create(iensPedido);
+		
+		return new ResponseEntity<String>(HttpStatus.OK);
 	}
 
 	@PostMapping
