@@ -2,7 +2,6 @@ package br.com.senior.controller;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.util.List;
@@ -29,8 +28,6 @@ import br.com.senior.entity.Pedido;
 import br.com.senior.entity.Produto;
 import br.com.senior.entity.QPedido;
 import br.com.senior.entity.QProduto;
-import br.com.senior.repository.ItensPedidoRepository;
-import br.com.senior.service.ItensPedidoService;
 import br.com.senior.service.PedidoService;
 import br.com.senior.service.ProdutoService;
 import br.com.senior.util.Util;
@@ -44,12 +41,6 @@ public class PedidoControllerTest {
 	private WebApplicationContext context;
 
 	private MockMvc mvc;
-
-	@Autowired
-	private ItensPedidoService service;
-
-	@Autowired
-	private ItensPedidoRepository repository;
 
 	@Autowired
 	private ProdutoService produtoService;

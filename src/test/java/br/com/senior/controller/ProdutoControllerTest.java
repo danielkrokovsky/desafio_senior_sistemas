@@ -1,7 +1,6 @@
 package br.com.senior.controller;
 
 import static org.junit.Assert.assertEquals;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -14,7 +13,6 @@ import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.core.annotation.Order;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -27,7 +25,6 @@ import com.querydsl.core.types.Predicate;
 
 import br.com.senior.entity.Produto;
 import br.com.senior.entity.QProduto;
-import br.com.senior.exception.ProdutoEmUsoException;
 import br.com.senior.service.ProdutoService;
 import br.com.senior.util.Util;
 
