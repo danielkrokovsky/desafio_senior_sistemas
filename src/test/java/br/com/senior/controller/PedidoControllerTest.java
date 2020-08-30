@@ -95,4 +95,25 @@ public class PedidoControllerTest extends MainTest{
 
 		mvc.perform(get("/pedido?ativo=true").contentType(MediaType.APPLICATION_JSON)).andExpect(status().isOk());
 	}
+	
+	/**
+	 * Teste salvar produtos desativados
+	 * @throws Exception
+	 */
+	@Test
+	@Order(4)
+	public void saveExecptionTest() throws Exception {
+
+		Pedido pedido = new Pedido();
+
+		Predicate p = QProduto.produto.ativo.eq(false);
+		List<Produto> produtos = produtoService.findAllByWebQuerydsl(p);
+
+		//pedido.setAtivo(false);
+		pedido.setProdutos(produtos);
+
+		mvc.perform(MockMvcRequestBuilders.post("/pedido").content(Util.asJsonString(pedido))
+				.contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
+				.andExpect(status().is5xxServerError());
+	}
 }

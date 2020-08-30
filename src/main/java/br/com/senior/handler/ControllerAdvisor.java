@@ -29,39 +29,58 @@ public class ControllerAdvisor extends ResponseEntityExceptionHandler {
 	
 	@ExceptionHandler(value = {PedidoFechadoException.class, ProdutoNaoIdentificadoException.class})
 	protected ResponseEntity<Object> handlePedidoFechadoException(RuntimeException ex, WebRequest request) {
+		
+		Map<String, Object> body = criarMenssagen(HttpStatus.INTERNAL_SERVER_ERROR, ex.getMessage());
 	
-		return handleExceptionInternal(ex, ex.getMessage(), new HttpHeaders(), HttpStatus.CONFLICT, request);
+		return handleExceptionInternal(ex,body, new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR, request);
 	}
 	
 	@ExceptionHandler(value = {ProdutoDesativadoException.class})
 	protected ResponseEntity<Object> handleProdutoDesativadoException(RuntimeException ex, WebRequest request) {
+		
+		Map<String, Object> body = criarMenssagen(HttpStatus.INTERNAL_SERVER_ERROR, ex.getMessage());
 	
-		return handleExceptionInternal(ex, ex.getMessage(), new HttpHeaders(), HttpStatus.CONFLICT, request);
+		return handleExceptionInternal(ex, body, new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR, request);
 	}
 	
 	@ExceptionHandler(value = {ProdutoEmUsoException.class})
 	protected ResponseEntity<Object> handleProdutoEmUsoException(ProdutoEmUsoException ex, WebRequest request) {
+		
+		Map<String, Object> body = criarMenssagen(HttpStatus.INTERNAL_SERVER_ERROR, ex.getMessage());
 	
-		return handleExceptionInternal(ex, ex.getMessage(), new HttpHeaders(), HttpStatus.CONFLICT, request);
-	}
+		return handleExceptionInternal(ex, body, new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR, request);
+	}	
 	
 	@Override
 	protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
 			HttpHeaders headers, HttpStatus status, WebRequest request) {
-		Map<String, Object> body = new LinkedHashMap<>();
 		
-        body.put("timestamp", new Date());
-        body.put("status", status.value());
-
-        //Get all fields errors
         List<String> errors = ex.getBindingResult()
                 .getFieldErrors()
                 .stream()
                 .map(x -> x.getDefaultMessage())
                 .collect(Collectors.toList());
-
-        body.put("errors", errors);
+        
+        
+        String res = errors.stream()
+				 .map(Object::toString)
+				 .collect(Collectors.joining("\n"));
+        
+		Map<String, Object> body = criarMenssagen(HttpStatus.INTERNAL_SERVER_ERROR, res);
 
         return new ResponseEntity<>(body, headers, status);
+	}
+	
+	private Map<String, Object> criarMenssagen(HttpStatus httpStatus, String msg){
+		
+		Map<String, Object> body = new LinkedHashMap<>();
+		
+		body.put("timestamp", new Date());
+        body.put("status", HttpStatus.INTERNAL_SERVER_ERROR);
+
+        body.put("errors", msg);
+        
+        
+        return body;
 	}
 }

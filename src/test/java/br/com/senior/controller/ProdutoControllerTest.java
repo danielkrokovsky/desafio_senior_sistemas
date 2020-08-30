@@ -52,7 +52,7 @@ public class ProdutoControllerTest extends MainTest{
 	public void findByIdTest() throws Exception {
 
 		mvc.perform(get("/produto/{id}", 565165l).contentType(MediaType.APPLICATION_JSON))
-				.andExpect(status().isConflict());
+				.andExpect(status().is5xxServerError());
 	}
 
 	@Test
