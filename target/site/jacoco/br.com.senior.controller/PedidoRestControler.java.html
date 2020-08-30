@@ -8,6 +8,7 @@ import javax.validation.constraints.NotNull;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.querydsl.binding.QuerydslPredicate;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,7 +26,7 @@ import br.com.senior.service.PedidoService;
 
 @RestController
 @RequestMapping(&quot;/pedido&quot;)
-<span class="fc" id="L28">public class PedidoRestControler {</span>
+<span class="fc" id="L29">public class PedidoRestControler {</span>
 
 	@Autowired
 	private PedidoService pedidoService;
@@ -33,28 +34,28 @@ import br.com.senior.service.PedidoService;
 	@GetMapping
 	public ResponseEntity&lt;List&lt;Pedido&gt;&gt; findAllByWebQuerydsl(@QuerydslPredicate(root = Pedido.class) Predicate predicate) {
 
-<span class="fc" id="L36">		return ResponseEntity.ok(pedidoService.findAllByWebQuerydsl(predicate));</span>
+<span class="fc" id="L37">		return ResponseEntity.ok(pedidoService.findAllByWebQuerydsl(predicate));</span>
 	}
 
 	@PutMapping
 	public void update(@Valid @RequestBody Pedido pedido) {
 
-<span class="nc" id="L42">		this.pedidoService.update(pedido);</span>
-<span class="nc" id="L43">	}</span>
+<span class="nc" id="L43">		this.pedidoService.update(pedido);</span>
+<span class="nc" id="L44">	}</span>
 
 	@PostMapping
 	public ResponseEntity&lt;Pedido&gt; finalizarPedido(@Valid @RequestBody Pedido pedido) {
 
-<span class="fc" id="L48">		Pedido p = this.pedidoService.finalizarPedido(pedido);</span>
-<span class="fc" id="L49">		return ResponseEntity.created(URI.create(&quot;/pedido/&quot; + p.getId())).build();</span>
+<span class="fc" id="L49">		Pedido p = this.pedidoService.finalizarPedido(pedido);</span>
+<span class="fc" id="L50">		return new ResponseEntity&lt;Pedido&gt;(p, HttpStatus.CREATED);</span>
 	}
 
 	@DeleteMapping(value = &quot;/{id}&quot;)
 	public ResponseEntity&lt;Void&gt; removeById(@PathVariable @NotNull Long id) {
 
-<span class="fc" id="L55">		this.pedidoService.removeById(id);</span>
+<span class="fc" id="L56">		this.pedidoService.removeById(id);</span>
 		
-<span class="fc" id="L57">		return ResponseEntity.ok().build();</span>
+<span class="fc" id="L58">		return ResponseEntity.ok().build();</span>
 
 	}
 

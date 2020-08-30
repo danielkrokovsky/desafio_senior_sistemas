@@ -109,11 +109,10 @@ public class PedidoControllerTest extends MainTest{
 		Predicate p = QProduto.produto.ativo.eq(false);
 		List<Produto> produtos = produtoService.findAllByWebQuerydsl(p);
 
-		//pedido.setAtivo(false);
 		pedido.setProdutos(produtos);
 
 		mvc.perform(MockMvcRequestBuilders.post("/pedido").content(Util.asJsonString(pedido))
 				.contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
-				.andExpect(status().is5xxServerError());
+				.andExpect(status().is4xxClientError());
 	}
 }

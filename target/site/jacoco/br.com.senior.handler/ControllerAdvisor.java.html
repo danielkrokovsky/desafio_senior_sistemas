@@ -29,40 +29,59 @@ import br.com.senior.exception.ProdutoNaoIdentificadoException;
 	
 	@ExceptionHandler(value = {PedidoFechadoException.class, ProdutoNaoIdentificadoException.class})
 	protected ResponseEntity&lt;Object&gt; handlePedidoFechadoException(RuntimeException ex, WebRequest request) {
+		
+<span class="fc" id="L33">		Map&lt;String, Object&gt; body = criarMenssagen(HttpStatus.CONFLICT, ex.getMessage());</span>
 	
-<span class="fc" id="L33">		return handleExceptionInternal(ex, ex.getMessage(), new HttpHeaders(), HttpStatus.CONFLICT, request);</span>
+<span class="fc" id="L35">		return handleExceptionInternal(ex,body, new HttpHeaders(), HttpStatus.CONFLICT, request);</span>
 	}
 	
 	@ExceptionHandler(value = {ProdutoDesativadoException.class})
 	protected ResponseEntity&lt;Object&gt; handleProdutoDesativadoException(RuntimeException ex, WebRequest request) {
+		
+<span class="fc" id="L41">		Map&lt;String, Object&gt; body = criarMenssagen(HttpStatus.CONFLICT, ex.getMessage());</span>
 	
-<span class="nc" id="L39">		return handleExceptionInternal(ex, ex.getMessage(), new HttpHeaders(), HttpStatus.CONFLICT, request);</span>
+<span class="fc" id="L43">		return handleExceptionInternal(ex, body, new HttpHeaders(), HttpStatus.CONFLICT, request);</span>
 	}
 	
 	@ExceptionHandler(value = {ProdutoEmUsoException.class})
 	protected ResponseEntity&lt;Object&gt; handleProdutoEmUsoException(ProdutoEmUsoException ex, WebRequest request) {
+		
+<span class="nc" id="L49">		Map&lt;String, Object&gt; body = criarMenssagen(HttpStatus.CONFLICT, ex.getMessage());</span>
 	
-<span class="nc" id="L45">		return handleExceptionInternal(ex, ex.getMessage(), new HttpHeaders(), HttpStatus.CONFLICT, request);</span>
-	}
+<span class="nc" id="L51">		return handleExceptionInternal(ex, body, new HttpHeaders(), HttpStatus.CONFLICT, request);</span>
+	}	
 	
 	@Override
 	protected ResponseEntity&lt;Object&gt; handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
 			HttpHeaders headers, HttpStatus status, WebRequest request) {
-<span class="nc" id="L51">		Map&lt;String, Object&gt; body = new LinkedHashMap&lt;&gt;();</span>
 		
-<span class="nc" id="L53">        body.put(&quot;timestamp&quot;, new Date());</span>
-<span class="nc" id="L54">        body.put(&quot;status&quot;, status.value());</span>
+<span class="nc" id="L58">        List&lt;String&gt; errors = ex.getBindingResult()</span>
+<span class="nc" id="L59">                .getFieldErrors()</span>
+<span class="nc" id="L60">                .stream()</span>
+<span class="nc" id="L61">                .map(x -&gt; x.getDefaultMessage())</span>
+<span class="nc" id="L62">                .collect(Collectors.toList());</span>
+        
+        
+<span class="nc" id="L65">        String res = errors.stream()</span>
+<span class="nc" id="L66">				 .map(Object::toString)</span>
+<span class="nc" id="L67">				 .collect(Collectors.joining(&quot;\n&quot;));</span>
+        
+<span class="nc" id="L69">		Map&lt;String, Object&gt; body = criarMenssagen(HttpStatus.CONFLICT, res);</span>
 
-        //Get all fields errors
-<span class="nc" id="L57">        List&lt;String&gt; errors = ex.getBindingResult()</span>
-<span class="nc" id="L58">                .getFieldErrors()</span>
-<span class="nc" id="L59">                .stream()</span>
-<span class="nc" id="L60">                .map(x -&gt; x.getDefaultMessage())</span>
-<span class="nc" id="L61">                .collect(Collectors.toList());</span>
+<span class="nc" id="L71">        return new ResponseEntity&lt;&gt;(body, headers, status);</span>
+	}
+	
+	private Map&lt;String, Object&gt; criarMenssagen(HttpStatus httpStatus, String msg){
+		
+<span class="fc" id="L76">		Map&lt;String, Object&gt; body = new LinkedHashMap&lt;&gt;();</span>
+		
+<span class="fc" id="L78">		body.put(&quot;timestamp&quot;, new Date());</span>
+<span class="fc" id="L79">        body.put(&quot;status&quot;, httpStatus);</span>
 
-<span class="nc" id="L63">        body.put(&quot;errors&quot;, errors);</span>
-
-<span class="nc" id="L65">        return new ResponseEntity&lt;&gt;(body, headers, status);</span>
+<span class="fc" id="L81">        body.put(&quot;errors&quot;, msg);</span>
+        
+        
+<span class="fc" id="L84">        return body;</span>
 	}
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>
