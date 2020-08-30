@@ -4,7 +4,7 @@
 
 1. - Deve-se ter instalado na máquina os seguintes programas:  
 
-        ```Git, Maven, Docker```  
+        ```Git, Maven, Docker, Docker Compose```  
 
 
 2. - Deve-se baixar o projeto do repositório git utilizando no terminal comando (caso tenha o git instalado na máquina)  
