@@ -1,0 +1,24 @@
+version: "3"
+
+services:
+  postgres:
+    image: postgres:9.6
+    container_name: "senior"
+    environment:
+      - POSTGRES_DB=senior
+      - POSTGRES_USER=senior
+      - POSTGRES_PASSWORD=senior
+
+    ports:
+      - 5432:5432
+    networks:
+      integracao:
+         ipv4_address: 172.20.0.2
+
+networks:
+ integracao:
+        ipam:
+            driver: default
+            config:
+                - subnet: 172.20.0.0/16
+

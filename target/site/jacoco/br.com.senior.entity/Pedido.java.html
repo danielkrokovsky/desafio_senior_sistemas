@@ -9,11 +9,12 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.SequenceGenerator;
 
 import lombok.Data;
 
 @Entity
-<span class="pc bnc" id="L16" title="All 38 branches missed.">@Data</span>
+<span class="pc bnc" id="L17" title="All 38 branches missed.">@Data</span>
 public class Pedido implements Serializable{
 	
 	
@@ -23,16 +24,17 @@ public class Pedido implements Serializable{
 	private static final long serialVersionUID = 1L;
 
 	@Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-<span class="fc" id="L27">    private Long id;</span>
+	@SequenceGenerator(name= &quot;PEDIDO_SEQUENCE&quot;, sequenceName = &quot;PEDIDO_SEQUENCE_ID&quot;, initialValue=1, allocationSize = 1)
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator=&quot;PEDIDO_SEQUENCE&quot;)
+<span class="fc" id="L29">    private Long id;</span>
 	
-<span class="fc" id="L29">	@Column(nullable = false,  columnDefinition = &quot;boolean default true&quot;)  </span>
-<span class="fc" id="L30">    private Boolean ativo = true;</span>
+<span class="fc" id="L31">	@Column(nullable = false,  columnDefinition = &quot;boolean default true&quot;)  </span>
+<span class="fc" id="L32">    private Boolean ativo = true;</span>
     
     @ManyToMany
-<span class="fc" id="L33">    private List&lt;Produto&gt; produtos;</span>
+<span class="fc" id="L35">    private List&lt;Produto&gt; produtos;</span>
     
-<span class="fc" id="L35">    private Double valorFinal;</span>
+<span class="fc" id="L37">    private Double valorFinal;</span>
     
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

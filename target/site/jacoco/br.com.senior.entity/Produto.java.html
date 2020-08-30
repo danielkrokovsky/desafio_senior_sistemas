@@ -23,8 +23,8 @@ public class Produto implements Serializable{
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@SequenceGenerator(name= &quot;VOCABULARY_SEQUENCE&quot;, sequenceName = &quot;VOCABULARY_SEQUENCE_ID&quot;, initialValue=1, allocationSize = 1)
-	@GeneratedValue(strategy=GenerationType.AUTO, generator=&quot;VOCABULARY_SEQUENCE&quot;)
+	@SequenceGenerator(name= &quot;PRODUTO_SEQUENCE&quot;, sequenceName = &quot;PRODUTO_SEQUENCE_ID&quot;, initialValue=1, allocationSize = 1)
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator=&quot;PRODUTO_SEQUENCE&quot;)
 <span class="fc" id="L28">    private Long id;</span>
  
 	@NotNull(message = &quot;Nome não pode ser nulo&quot;)
