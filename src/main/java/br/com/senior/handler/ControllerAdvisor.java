@@ -30,25 +30,25 @@ public class ControllerAdvisor extends ResponseEntityExceptionHandler {
 	@ExceptionHandler(value = {PedidoFechadoException.class, ProdutoNaoIdentificadoException.class})
 	protected ResponseEntity<Object> handlePedidoFechadoException(RuntimeException ex, WebRequest request) {
 		
-		Map<String, Object> body = criarMenssagen(HttpStatus.INTERNAL_SERVER_ERROR, ex.getMessage());
+		Map<String, Object> body = criarMenssagen(HttpStatus.CONFLICT, ex.getMessage());
 	
-		return handleExceptionInternal(ex,body, new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR, request);
+		return handleExceptionInternal(ex,body, new HttpHeaders(), HttpStatus.CONFLICT, request);
 	}
 	
 	@ExceptionHandler(value = {ProdutoDesativadoException.class})
 	protected ResponseEntity<Object> handleProdutoDesativadoException(RuntimeException ex, WebRequest request) {
 		
-		Map<String, Object> body = criarMenssagen(HttpStatus.INTERNAL_SERVER_ERROR, ex.getMessage());
+		Map<String, Object> body = criarMenssagen(HttpStatus.CONFLICT, ex.getMessage());
 	
-		return handleExceptionInternal(ex, body, new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR, request);
+		return handleExceptionInternal(ex, body, new HttpHeaders(), HttpStatus.CONFLICT, request);
 	}
 	
 	@ExceptionHandler(value = {ProdutoEmUsoException.class})
 	protected ResponseEntity<Object> handleProdutoEmUsoException(ProdutoEmUsoException ex, WebRequest request) {
 		
-		Map<String, Object> body = criarMenssagen(HttpStatus.INTERNAL_SERVER_ERROR, ex.getMessage());
+		Map<String, Object> body = criarMenssagen(HttpStatus.CONFLICT, ex.getMessage());
 	
-		return handleExceptionInternal(ex, body, new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR, request);
+		return handleExceptionInternal(ex, body, new HttpHeaders(), HttpStatus.CONFLICT, request);
 	}	
 	
 	@Override
@@ -66,7 +66,7 @@ public class ControllerAdvisor extends ResponseEntityExceptionHandler {
 				 .map(Object::toString)
 				 .collect(Collectors.joining("\n"));
         
-		Map<String, Object> body = criarMenssagen(HttpStatus.INTERNAL_SERVER_ERROR, res);
+		Map<String, Object> body = criarMenssagen(HttpStatus.CONFLICT, res);
 
         return new ResponseEntity<>(body, headers, status);
 	}
@@ -76,7 +76,7 @@ public class ControllerAdvisor extends ResponseEntityExceptionHandler {
 		Map<String, Object> body = new LinkedHashMap<>();
 		
 		body.put("timestamp", new Date());
-        body.put("status", HttpStatus.INTERNAL_SERVER_ERROR);
+        body.put("status", httpStatus);
 
         body.put("errors", msg);
         

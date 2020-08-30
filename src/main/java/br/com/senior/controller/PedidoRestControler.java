@@ -8,6 +8,7 @@ import javax.validation.constraints.NotNull;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.querydsl.binding.QuerydslPredicate;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -46,7 +47,7 @@ public class PedidoRestControler {
 	public ResponseEntity<Pedido> finalizarPedido(@Valid @RequestBody Pedido pedido) {
 
 		Pedido p = this.pedidoService.finalizarPedido(pedido);
-		return ResponseEntity.created(URI.create("/pedido/" + p.getId())).build();
+		return new ResponseEntity<Pedido>(p, HttpStatus.CREATED);
 	}
 
 	@DeleteMapping(value = "/{id}")
